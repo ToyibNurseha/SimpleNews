@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +13,7 @@ import com.toyibnurseha.news_mvvm.R
 import com.toyibnurseha.news_mvvm.adapter.NewsAdapter
 import com.toyibnurseha.news_mvvm.ui.NewsActivity
 import com.toyibnurseha.news_mvvm.ui.NewsViewModel
+import kotlinx.android.synthetic.main.fragment_breaking_news.*
 import kotlinx.android.synthetic.main.fragment_saved_news.*
 
 class SavedNewsFragment : Fragment(
@@ -31,7 +33,7 @@ class SavedNewsFragment : Fragment(
                 putSerializable("article", it)
             }
             findNavController().navigate(
-                R.id.action_breakingNewsFragment_to_articleFragment,
+                R.id.action_savedNewsFragment_to_articleFragment,
                 bundle
             )
         }
@@ -51,7 +53,7 @@ class SavedNewsFragment : Fragment(
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val article = newsAdapter.differ.currentList[position]
-                viewModel.deleteArticcle(article)
+                viewModel.deleteArticle(article)
                 Snackbar.make(view, "Article Deleted", Snackbar.LENGTH_LONG).apply {
                     setAction("Undo") {
                         viewModel.saveArticle(article)
@@ -66,16 +68,21 @@ class SavedNewsFragment : Fragment(
             attachToRecyclerView(rvSavedNews)
         }
 
-        viewModel.getSavedNews().observe(viewLifecycleOwner, {articles ->
+        viewModel.getSavedNews().observe(viewLifecycleOwner) { articles ->
+            if(articles.isEmpty()) {
+                layoutNoData.visibility = View.VISIBLE
+            }
             newsAdapter.differ.submitList(articles)
-        })
+        }
     }
 
     private fun setupRecyclerView() {
         newsAdapter = NewsAdapter()
+        val dividerItemDecoration = DividerItemDecoration(rvSavedNews.context, LinearLayoutManager(requireContext()).orientation)
         rvSavedNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
+            addItemDecoration(dividerItemDecoration)
         }
     }
 

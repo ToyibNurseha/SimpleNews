@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.toyibnurseha.news_mvvm.R
@@ -61,7 +62,7 @@ class SearchNewsFragment : Fragment(
             }
         }
 
-        viewModel.searchNews.observe(viewLifecycleOwner, { response ->
+        viewModel.searchNews.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
@@ -79,7 +80,8 @@ class SearchNewsFragment : Fragment(
                     hideProgressBar()
                     response.message?.let { message ->
                         Log.e(TAG, "an error occured: $message")
-                        Toast.makeText(activity, "an error occured $message", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity, "an error occured $message", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
 
@@ -87,7 +89,7 @@ class SearchNewsFragment : Fragment(
                     showProgressBar()
                 }
             }
-        })
+        }
     }
 
     var isLoading = false
@@ -134,10 +136,12 @@ class SearchNewsFragment : Fragment(
 
     private fun setupRecyclerView() {
         newsAdapter = NewsAdapter()
+        val dividerItemDecoration = DividerItemDecoration(rvSearchNews.context, LinearLayoutManager(requireContext()).orientation)
         rvSearchNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
             addOnScrollListener(this@SearchNewsFragment.scrollListener)
+            addItemDecoration(dividerItemDecoration)
         }
     }
 }

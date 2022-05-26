@@ -38,6 +38,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_savedNewsFragment_to_articleFragment2"
+            app:destination="@id/articleFragment" />
     </fragment>
     <fragment
         android:id="@+id/articleFragment"

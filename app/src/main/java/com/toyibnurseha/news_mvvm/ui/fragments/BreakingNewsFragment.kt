@@ -7,6 +7,7 @@ import android.widget.AbsListView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.toyibnurseha.news_mvvm.R
@@ -41,7 +42,7 @@ class BreakingNewsFragment : Fragment(
             )
         }
 
-        viewModel.breakingNews.observe(viewLifecycleOwner, { response ->
+        viewModel.breakingNews.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
@@ -58,7 +59,8 @@ class BreakingNewsFragment : Fragment(
                 is Resource.Error -> {
                     hideProgressBar()
                     response.message?.let { message ->
-                        Toast.makeText(activity, "an error occured $message", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity, "an error occured $message", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
 
@@ -66,7 +68,7 @@ class BreakingNewsFragment : Fragment(
                     showProgressBar()
                 }
             }
-        })
+        }
     }
 
     var isLoading = false
@@ -113,10 +115,12 @@ class BreakingNewsFragment : Fragment(
 
     private fun setupRecyclerView() {
         newsAdapter = NewsAdapter()
+        val dividerItemDecoration = DividerItemDecoration(rvBreakingNews.context, LinearLayoutManager(requireContext()).orientation)
         rvBreakingNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
             addOnScrollListener(this@BreakingNewsFragment.scrollListener)
+            addItemDecoration(dividerItemDecoration)
         }
     }
 

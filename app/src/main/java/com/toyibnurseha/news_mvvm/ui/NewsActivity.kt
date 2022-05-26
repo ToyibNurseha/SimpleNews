@@ -3,6 +3,8 @@ package com.toyibnurseha.news_mvvm.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.toyibnurseha.news_mvvm.R
@@ -21,6 +23,7 @@ class NewsActivity : AppCompatActivity() {
         val newsRepository = NewsRepository(ArticleDatabase(this))
         val viewModelProviderFactory = NewsViewModelProviderFactory(application, newsRepository)
         viewModel = ViewModelProvider(this, viewModelProviderFactory).get(NewsViewModel::class.java)
-        bottomNavigation.setupWithNavController(newsNavhostFragment.findNavController())
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.newsNavhostFragment) as NavHostFragment
+        bottomNavigation.setupWithNavController(navHostFragment.navController)
     }
 }
