@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">News-MVVM</string>
+    <string name="app_name">News Aggregator</string>
     <string name="you_don_t_have_saved_articles_data">You don\'t have saved Articles data</string>
 </resources>

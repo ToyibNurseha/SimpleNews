@@ -33,7 +33,7 @@ class OnBoardingActivity : AppIntro() {
         setProgressIndicator()
         indicatorController = DotIndicatorController(this)
         setIndicatorColor(
-            selectedIndicatorColor = R.color.cornflower_blue,
+            selectedIndicatorColor = R.color.black,
             unselectedIndicatorColor = R.color.white
         )
 
@@ -67,9 +67,7 @@ class OnBoardingActivity : AppIntro() {
             descriptionColorRes = R.color.black,
         ))
 
-        setColorSkipButton(R.color.cornflower_blue)
-        setNextArrowColor(R.color.cornflower_blue)
-        setColorDoneText(R.color.cornflower_blue)
+        setNextArrowColor(R.color.white)
 
     }
 
